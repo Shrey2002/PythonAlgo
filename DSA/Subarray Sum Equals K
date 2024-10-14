@@ -1,0 +1,29 @@
+Problem: Subarray Sum Equals K
+Description:
+Given an array of integers nums and an integer k, find the total number of continuous subarrays whose sum equals k.
+
+Solution:
+
+We can solve this using a hashmap (dictionary in Python) to store the prefix sum and its frequency. The idea is to keep track of the cumulative sum at each index and check if there’s a subarray that sums to k by using the formula:
+prefix_sum - k.
+
+def subarray_sum(nums: list[int], k: int) -> int:
+    count = 0
+    prefix_sum = 0
+    prefix_sum_map = {0: 1}  # Initialize with 0 sum having 1 count
+
+    for num in nums:
+        prefix_sum += num
+        if prefix_sum - k in prefix_sum_map:
+            count += prefix_sum_map[prefix_sum - k]
+        if prefix_sum in prefix_sum_map:
+            prefix_sum_map[prefix_sum] += 1
+        else:
+            prefix_sum_map[prefix_sum] = 1
+
+    return count
+
+# Example:
+nums = [1, 1, 1]
+k = 2
+print(subarray_sum(nums, k))  # Output: 2
